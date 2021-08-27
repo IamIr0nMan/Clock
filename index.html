@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We"
+      crossorigin="anonymous"
+    />
+
+    <title>Clock</title>
+  </head>
+  <body>
+    <div class="container py-5">
+      <div class="p-5 text-white bg-dark rounded-3 text-center">
+        <p>
+          <small class="text-muted h5">Today's Date is: </small
+          ><span class="h3" id="date"></span>
+        </p>
+        <br />
+        <p>
+          <small class="text-muted h5">Current time is: </small
+          ><span class="h3" id="time"></span>
+        </p>
+      </div>
+    </div>
+    <div class="text-center">
+      <button class="btn btn-outline-dark shadow btn-lg" type="button">
+        Add Timer
+      </button>
+    </div>
+    <script>
+      let watch;
+      const options = {
+        weekday: "long",
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+      };
+      let date;
+      let time;
+      setInterval(() => {
+        watch = new Date();
+        date = watch.toLocaleDateString("eng", options);
+        time = watch.toLocaleTimeString("it-IT");
+        document.getElementById("date").innerHTML = date;
+        document.getElementById("time").innerHTML = time;
+      }, 500);
+    </script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>
