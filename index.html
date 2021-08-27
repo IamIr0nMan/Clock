@@ -12,7 +12,19 @@
       integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We"
       crossorigin="anonymous"
     />
+    <style>
+      /* Chrome, Safari, Edge, Opera */
+      input::-webkit-outer-spin-button,
+      input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+      }
 
+      /* Firefox */
+      input[type="number"] {
+        -moz-appearance: textfield;
+      }
+    </style>
     <title>Clock</title>
   </head>
   <body>
@@ -43,9 +55,9 @@
         Add Timer
       </button>
     </div>
-
+<!-- An offCanvas to set timer -->
     <div
-      class="offcanvas offcanvas-top"
+      class="offcanvas offcanvas-end"
       tabindex="-1"
       id="addTimer"
       aria-labelledby="headerLabel"
@@ -60,7 +72,102 @@
         ></button>
       </div>
       <div class="offcanvas-body">
-        
+        <div class="m-5">
+      <span><label for="timerInputHour">Hours</label></span>
+      <div class="input-group flex-nowrap">
+        <span
+          type="button"
+          class="input-group-text"
+          id="addon-wrapping"
+          onclick="decrease('timerInputHour')"
+          style="user-select: none"
+          >-</span
+        >
+        <input
+          type="number"
+          class="form-control"
+          aria-describedby="addon-wrapping"
+          id="timerInputHour"
+          name="hour"
+          autocomplete="off"
+          min="0"
+          value="0"
+        />
+        <span
+          type="button"
+          class="input-group-text"
+          id="addon-wrapping"
+          onclick="increase('timerInputHour')"
+          style="user-select: none"
+          >+</span
+        >
+      </div>
+    </div>
+    <div class="m-5">
+      <span><label for="timerInputMinutes">Minutes</label></span>
+      <div class="input-group flex-nowrap">
+        <span
+          type="button"
+          class="input-group-text"
+          id="addon-wrapping"
+          onclick="decrease('timerInputMinutes')"
+          style="user-select: none"
+          >-</span
+        >
+        <input
+          type="number"
+          class="form-control"
+          aria-describedby="addon-wrapping"
+          id="timerInputMinutes"
+          name="min"
+          autocomplete="off"
+          min="0"
+          value="0"
+        />
+        <span
+          type="button"
+          class="input-group-text"
+          id="addon-wrapping"
+          onclick="increase('timerInputMinutes')"
+          style="user-select: none"
+          >+</span
+        >
+      </div>
+    </div>
+    <div class="m-5">
+      <span><label for="timerInputSeconds">Seconds</label></span>
+      <div class="input-group flex-nowrap">
+        <span
+          type="button"
+          class="input-group-text"
+          id="addon-wrapping"
+          onclick="decrease('timerInputSeconds')"
+          style="user-select: none"
+          >-</span
+        >
+        <input
+          type="number"
+          class="form-control"
+          aria-describedby="addon-wrapping"
+          id="timerInputSeconds"
+          name="sec"
+          autocomplete="off"
+          min="0"
+          value="1"
+        />
+        <span
+          type="button"
+          class="input-group-text"
+          id="addon-wrapping"
+          onclick="increase('timerInputSeconds')"
+          style="user-select: none"
+          >+</span
+        >
+      </div>
+    </div>
+    <button id="submitTimer" class="btn btn-outline-dark shadow ms-5" type="submit">
+      Start
+    </button>
       </div>
     </div>
     </div>
@@ -80,6 +187,18 @@
       </div>
     </div>
     <script>
+
+      //functions to change form values with button
+      function increase(id) {
+        document.getElementById(id).value++;
+      }
+      function decrease(id) {
+        if (document.getElementById(id).value > 0) {
+          document.getElementById(id).value--;
+        }
+      }
+
+      // script for displaying date and time
       let watch;
       const options = {
         weekday: "long",
