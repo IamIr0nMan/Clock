@@ -16,6 +16,7 @@
     <title>Clock</title>
   </head>
   <body>
+    <!-- Showing the clock -->
     <div class="container py-5">
       <div class="p-5 text-white bg-dark rounded-3 text-center">
         <p>
@@ -29,10 +30,54 @@
         </p>
       </div>
     </div>
-    <div class="text-center">
-      <button class="btn btn-outline-dark shadow btn-lg" type="button">
+
+    <!-- Button to add timer -->
+    <div class="text-center m-3">
+      <button
+        class="btn btn-outline-dark shadow btn-lg"
+        type="button"
+        data-bs-toggle="offcanvas"
+        data-bs-target="#addTimer"
+        aria-controls="addTimer"
+      >
         Add Timer
       </button>
+    </div>
+
+    <div
+      class="offcanvas offcanvas-top"
+      tabindex="-1"
+      id="addTimer"
+      aria-labelledby="headerLabel"
+    >
+      <div class="offcanvas-header">
+        <h5 id="headerLabel">Add Timer</h5>
+        <button
+          type="button"
+          class="btn-close text-reset"
+          data-bs-dismiss="offcanvas"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="offcanvas-body">
+        
+      </div>
+    </div>
+    </div>
+
+    <!-- Showing the timers -->
+    <div class="container">
+      <div class="row">
+        <!-- <div class="col-4 text-center">
+          <div class="card m-3" style="width: 18rem">
+            <div class="card-body">
+              <h5 class="card-title">Timer</h5>
+              <p class="card-text">{Remaining time}</p>
+              <a href="#" class="btn btn-primary">Pause/Resume</a>
+            </div>
+          </div>
+        </div> -->
+      </div>
     </div>
     <script>
       let watch;
