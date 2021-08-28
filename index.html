@@ -25,6 +25,9 @@
         -moz-appearance: textfield;
       }
     </style>
+    <script>
+      let timerArray = JSON.parse(localStorage.getItem("timerKey")) || [];
+    </script>
     <title>Clock</title>
   </head>
   <body>
@@ -153,7 +156,7 @@
           name="sec"
           autocomplete="off"
           min="0"
-          value="1"
+          value="0"
         />
         <span
           type="button"
@@ -165,7 +168,11 @@
         >
       </div>
     </div>
-    <button id="submitTimer" class="btn btn-outline-dark shadow ms-5" type="submit">
+    <button id="submitTimer"
+      onclick="createTimer()"
+      data-bs-dismiss="offcanvas"
+      class="btn btn-outline-dark shadow ms-5"
+      type="submit">
       Start
     </button>
       </div>
@@ -174,19 +181,65 @@
 
     <!-- Showing the timers -->
     <div class="container">
-      <div class="row">
-        <!-- <div class="col-4 text-center">
-          <div class="card m-3" style="width: 18rem">
-            <div class="card-body">
-              <h5 class="card-title">Timer</h5>
-              <p class="card-text">{Remaining time}</p>
-              <a href="#" class="btn btn-primary">Pause/Resume</a>
-            </div>
-          </div>
-        </div> -->
+      <div class="row" id="containTimers">
+        <!-- will be replaced with timer cards-->
       </div>
     </div>
     <script>
+      // calling the function here so that all previous timers load up when the page is refreshed.
+      showTimers();
+
+      // function to create timer
+      function createTimer() {
+        let hours = document.getElementById("timerInputHour").value;
+        let minutes = document.getElementById("timerInputMinutes").value;
+        let seconds = document.getElementById("timerInputSeconds").value;
+        let time = hours * 3600 * 1000 + minutes * 60 * 1000 + seconds * 1000;
+        hours = hours < 10 ? "0" + hours.toString() : hours.toString();
+        minutes = minutes < 10 ? "0" + minutes.toString() : minutes.toString();
+        seconds = seconds < 10 ? "0" + seconds.toString() : seconds.toString();
+        timerJson = {
+          hh: hours,
+          mm: minutes,
+          ss: seconds,
+          time: time,
+        };
+        if (time > 0) {
+          timerArray.push(timerJson);
+          localStorage.setItem("timerKey", JSON.stringify(timerArray));
+          showTimers();
+        }
+        resetTimerForm();
+      }
+
+      // function to reset form values
+      function resetTimerForm(){
+        document.getElementById("timerInputHour").value = 0;
+        document.getElementById("timerInputMinutes").value = 0;
+        document.getElementById("timerInputSeconds").value = 0;
+      }
+
+      // funtion to show the timers from localStorage
+      function showTimers() {
+        let timerArray = JSON.parse(localStorage.getItem("timerKey")) || [];
+        let timerCard = document.getElementById("containTimers");
+        let timerCardItems = "";
+        timerArray.forEach((item, index) => {
+          timerCardItems += `
+        <div class="col-md-4 text-center">
+            <div class="card m-3">
+                <div class="card-body">
+                    <h5 class="card-title">Timer ${index + 1}</h5>
+                    <h2 class="card-text m-3">${item.hh}:${item.mm}:${item.ss}</h2>
+                    <div class="m-2"><button id="startStopButton" class="btn btn-outline-dark btn-lg">Start</button></div>
+                    <div class="m-2"><button class="btn btn-outline-danger btn-sm">Delete</button></div>
+                </div>
+            </div>
+        </div>
+        `;
+        });
+        timerCard.innerHTML = timerCardItems;
+      }
 
       //functions to change form values with button
       function increase(id) {
