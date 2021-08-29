@@ -231,7 +231,7 @@
                 <div class="card-body" id="Timer${index + 1}">
                     <h5 class="card-title">Timer ${index + 1}</h5>
                     <h2 class="card-text m-3">${item.hh}:${item.mm}:${item.ss}</h2>
-                    <div class="m-2"><button id="startStopButton" class="btn btn-dark btn-lg" onclick="startTimer(${index})">Start</button></div>
+                    <div class="m-2"><button id="startStopButton" class="btn btn-outline-dark shadow btn-lg" onclick="startTimer(${index})">Start</button></div>
                     <div class="m-2"><button class="btn btn-outline-danger btn-sm disabled" onclick="resetTimer(${index})">Reset</button></div>
                 </div>
             </div>
@@ -260,15 +260,32 @@
           ).innerHTML = `<h5 class="card-title">Timer ${index + 1}</h5>
                           <h2 class="card-text m-3">${hours}:${minutes}:${seconds}</h2>
                           <div class="m-2"><button id="startStopButton" class="btn btn-outline-dark btn-lg disabled" onclick="startTimer(${index})">Start</button></div>
-                          <div class="m-2"><button class="btn btn-danger btn-sm" onclick="resetTimer(${index})">Reset</button></div>`;
+                          <div class="m-2"><button class="btn btn-danger shadow btn-sm" onclick="resetTimer(${index})">Reset</button></div>`;
           if (distance < 0) {
             clearInterval(timer);
             showTimers();
           }
         }, 500);
+        timerArray[index].interval = timer;
+        localStorage.setItem("timerKey", JSON.stringify(timerArray));
       }
       
-      
+      // function to reset timer
+      function resetTimer(index) {
+        timerArray = JSON.parse(localStorage.getItem("timerKey")) || [];
+        let timer = timerArray[index].interval;
+        if(timer){
+          clearInterval(timer);
+          delete timerArray[index].interval;
+          localStorage.setItem("timerKey", JSON.stringify(timerArray));
+        }
+        document.getElementById(
+          "Timer" + (index + 1)).innerHTML =` 
+            <h5 class="card-title">Timer ${index + 1}</h5>
+            <h2 class="card-text m-3">${timerArray[index].hh}:${timerArray[index].mm}:${timerArray[index].ss}</h2>
+            <div class="m-2"><button id="startStopButton" class="btn btn-outline-dark shadow btn-lg" onclick="startTimer(${index})">Start</button></div>
+            <div class="m-2"><button class="btn btn-outline-danger disabled btn-sm" onclick="resetTimer(${index})">Reset</button></div>`;
+      }
 
       //functions to change form values with button
       function increase(id) {
