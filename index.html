@@ -244,6 +244,7 @@
       function startTimer(index) {
         let duration = timerArray[index].time;
         let endTime = new Date(Date.now() + duration).getTime();
+        let alarm = new Audio("alarm.wav");
         let timer = setInterval(() => {
           var now = new Date().getTime();
           var distance = endTime - now;
@@ -262,7 +263,10 @@
                           <div class="m-2"><button id="startStopButton" class="btn btn-outline-dark btn-lg disabled" onclick="startTimer(${index})">Start</button></div>
                           <div class="m-2"><button class="btn btn-danger shadow btn-sm" onclick="resetTimer(${index})">Reset</button></div>`;
           if (distance < 0) {
+            alarm.play();
             clearInterval(timer);
+            delete timerArray[index].interval;
+            localStorage.setItem("timerKey", JSON.stringify(timerArray));
             showTimers();
           }
         }, 500);
