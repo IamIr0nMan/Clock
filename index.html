@@ -24,6 +24,11 @@
       input[type="number"] {
         -moz-appearance: textfield;
       }
+      @media screen and (max-width: 1000px) {
+        .info-user {
+          display: none;
+        }
+      }
     </style>
     <script>
       let timerArray = JSON.parse(localStorage.getItem("timerKey")) || [];
@@ -185,6 +190,19 @@
         <!-- will be replaced with timer cards-->
       </div>
     </div>
+
+    <!-- Toasts -->
+      <div class="toast-container" id="toast-container""></div>
+
+    <!-- info buttons -->
+    <p
+      class="info-user"
+      type="button"
+      onclick="toast()"
+      style="font-size: 3rem; position: fixed; bottom: 1.5rem; right: 4rem; z-index: 10;">
+        🛈
+    </p>
+
     <script>
       // calling the function here so that all previous timers load up when the page is refreshed.
       showTimers();
@@ -289,6 +307,48 @@
             <h2 class="card-text m-3">${timerArray[index].hh}:${timerArray[index].mm}:${timerArray[index].ss}</h2>
             <div class="m-2"><button id="startStopButton" class="btn btn-outline-dark shadow btn-lg" onclick="startTimer(${index})">Start</button></div>
             <div class="m-2"><button class="btn btn-outline-danger disabled btn-sm" onclick="resetTimer(${index})">Reset</button></div>`;
+      }
+
+      // function for toast messages
+      function toast() {
+        var options = {
+          animation: true,
+          autohide: true,
+          delay: 5000,
+        };
+        let toastElements = document.getElementById("toast-container");
+        let toastElement = `
+          <div
+            class="toast align-items-center"
+            id="info"
+            role="alert"
+            aria-live="assertive"
+            aria-atomic="true"
+            style="position: fixed; bottom: 1rem; right: 1rem; z-index: 11;"
+          >
+            <div class="d-flex">
+              <div class="toast-body ms-4" style="text-align: center; font-size: 1.2rem;">
+                <p>To <em>delete</em> timers, press <mark>Ctrl+Shift+I</mark></p>
+                <p>
+                  Click on <em>Console</em>, then type <mark>localStorage.clear();</mark>
+                </p>
+                <p>
+                  <strong>Note:</strong> This will delete all the timers.
+                </p>
+              </div>
+              <button
+                type="button"
+                class="btn-close me-2 m-2"
+                data-bs-dismiss="toast"
+                aria-label="Close"
+              ></button>
+            </div>
+          </div>
+        `;
+        toastElements.insertAdjacentHTML("beforeend", toastElement);
+        toastElement = document.getElementById("info");
+        let toastElementBootstrap = new bootstrap.Toast(toastElement, options);
+        toastElementBootstrap.show();
       }
 
       //functions to change form values with button
